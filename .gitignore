@@ -2,3 +2,4 @@
 .env
 **/virt/
 /server/pyvenv.cfg
+**/build/
