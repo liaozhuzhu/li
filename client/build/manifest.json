@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Linkedin Freemium",
+  "version": "1.0.0",
+  "description": "Good luck with your job search!",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": []
+}
