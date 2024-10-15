@@ -20,10 +20,10 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post('http://127.0.0.1:8080/api/data', { input: inputData })
+    axios.post('http://127.0.0.1:8080/api/model', { prompt: inputData })
         .then(response => {
-            console.log(response.data.response.input);
-            setOutputData(response.data.response.input);
+            let res = response.data.response
+            setOutputData(res);
             setInputData("");
         })
         .catch(error => {

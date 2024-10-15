@@ -5,15 +5,22 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 load_dotenv()
 
-# HF_TOKEN = os.getenv('HF_TOKEN')
-# client = InferenceClient(api_key=HF_TOKEN)
-# for message in client.chat_completion(
-# 	model="mistralai/Mistral-7B-Instruct-v0.2",
-# 	messages=[{"role": "user", "content": "Based on this person's linkedin profile, write a short 50 word maximum formal linkedin biography for him as though he wrote it himself. Name: Liao Zhu, Experiences: Software ENgineer Internn at Collins Aerospace, Undergrad Researcher at Columbia University, Education: University of Iowa BS Math and BS Computer Science 2021-2025"}],
-# 	max_tokens=500,
-# 	stream=True,
-# ):
-#     print(message.choices[0].delta.content, end="")
+HF_TOKEN = os.getenv('HF_TOKEN')
+MODEL = "mistralai/Mistral-7B-Instruct-v0.2"
+
+
+def get_response_from_model(prompt, system_prompt="You are an assistant called Fliee who helps people with their linkedin profiles."):
+    
+    client = InferenceClient(api_key=HF_TOKEN)
+    response = ""
+    for message in client.chat_completion(
+        model=MODEL,
+        messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": prompt}],
+        max_tokens=500,
+        stream=True,
+    ):
+        response += message.choices[0].delta.content
+    return response
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
@@ -28,6 +35,13 @@ def get_data():
 def post_data():
     data = request.json
     return jsonify({"response": data}), 201
+
+@app.route('/api/model', methods=['POST'])
+def prompt_model():
+    data = request.json
+    prompt = data['prompt']
+    response = get_response_from_model(prompt)[1:] # strip off leading space
+    return jsonify({"response": response}), 201
 
 
 if __name__ == '__main__':
