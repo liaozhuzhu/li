@@ -32,16 +32,19 @@ const enhanceUserProfile = () => {
                     let experienceItemsStringBuilder = "";
                     const allExperienceItems = section.querySelectorAll('div.display-flex.flex-column.align-self-center.full-width')
                     for (let experienceItem of allExperienceItems) {
-                        let experienceTitle = experienceItem.querySelector('.visually-hidden').textContent.trim()
-                        let experienceDescription = experienceItem.querySelector('.inline-show-more-text--is-collapsed.inline-show-more-text--is-collapsed-with-line-clamp.full-width span[aria-hidden="true"]').textContent.trim();
-                        experienceItemsStringBuilder += `${experienceTitle} - ${experienceDescription}, `
+                        const titleAndCompany = experienceItem.querySelectorAll('.visually-hidden')
+                        const companyText = experienceItem.getElementsByClassName('pvs-list__item--with-top-padding AAemVmszRHbUwYWGyhHfzqPtOAlpOHIQdbsM');
+                        let experienceTitle = titleAndCompany[0].textContent.trim()
+                        let experienceCompany = titleAndCompany[1].textContent.split("·")[0].trim()
+                        let experienceDescription = companyText[0] ? companyText[0].querySelector('span[aria-hidden="true"]').textContent.trim() : ''; // user may not have a description for thier experience
+                        experienceItemsStringBuilder += `${experienceTitle} at ${experienceCompany} ${experienceDescription ? `with description "${experienceDescription}"`: ''}, `
                     }
                     userProfileInformation += `${currSection}: ${experienceItemsStringBuilder} | `
-                } console.log(userProfileInformation)
+                }
             }
         }
     }
-
+    console.log(userProfileInformation)
 }
 
 function updateButtonClass() {
