@@ -28,6 +28,15 @@ const enhanceUserProfile = () => {
                         featuredItemsStringBuilder += `${featuredItemTitle} - ${featuredItemDescription}, `
                     }
                     userProfileInformation += `${currSection}: ${featuredItemsStringBuilder} | `
+                } else if (currSection == "Experience") {
+                    let experienceItemsStringBuilder = "";
+                    const allExperienceItems = section.querySelectorAll('div.display-flex.flex-column.align-self-center.full-width')
+                    for (let experienceItem of allExperienceItems) {
+                        let experienceTitle = experienceItem.querySelector('.visually-hidden').textContent.trim()
+                        let experienceDescription = experienceItem.querySelector('.inline-show-more-text--is-collapsed.inline-show-more-text--is-collapsed-with-line-clamp.full-width span[aria-hidden="true"]').textContent.trim();
+                        experienceItemsStringBuilder += `${experienceTitle} - ${experienceDescription}, `
+                    }
+                    userProfileInformation += `${currSection}: ${experienceItemsStringBuilder} | `
                 } console.log(userProfileInformation)
             }
         }
