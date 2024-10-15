@@ -4,29 +4,34 @@ const enhanceUserProfile = () => {
     let userProfileInformation = ""
     const headlineElement = document.querySelector('div.text-body-medium.break-words');
     const headlineText = headlineElement ? headlineElement.textContent.trim() : '';
-    userProfileInformation += `Headline: ${headlineText}\n`;
+    userProfileInformation += `Headline: ${headlineText} | `;
     // get all sections
     const sections = document.querySelectorAll('section[class^="artdeco-card pv-profile-card break-words"]');
     const importantSections = new Set(['About', 'Experience', 'Education', 'Skills', 'Featured', 'Licenses & certifications']);
 
-    let currSection = ""
-    const allUserSections = []
     for (let section of sections) {
         const sectionTitle = section.querySelector('.pvs-header__title.text-heading-large');
         if (sectionTitle) {
             const innerSpan = sectionTitle.querySelector('span');
-            currSection = innerSpan ? innerSpan.textContent.trim() : '';
-        }
+            let currSection = innerSpan ? innerSpan.textContent.trim() : '';
 
-        if (importantSections.has(currSection)) {
-            // const sectionContent = section.querySelector('div');
-            // if (sectionContent) {
-            //     userProfileInformation += `${currSection}:\n${sectionContent.textContent.trim()}\n`;
-            // }
-            allUserSections.push(currSection);
+            // check if this is an important section
+            if (importantSections.has(currSection)) {
+                // here's tricky because each section has unique structures
+                if (currSection == "Featured") {
+                    let featuredItemsStringBuilder = ""
+                    const allFeaturedItems = section.querySelectorAll('.pvs-media-content__preview');
+                    for (let featuredItem of allFeaturedItems) {
+                        // console.log(featuredItem)
+                        let featuredItemTitle = featuredItem.querySelector('div.mb1').querySelector('div.QPriypoPxOFvmnjsoqRxkXeeNBXMwoasTM span[aria-hidden="true"]').textContent.trim()
+                        let featuredItemDescription = featuredItem.querySelector('div.eMKzYTnovCkOQaNEgZiBMAzoRyZWLkSNRU.text-body-small.break-words.display-flex.align-items-center').querySelector('div.QPriypoPxOFvmnjsoqRxkXeeNBXMwoasTM span[aria-hidden="true"]').textContent.trim()
+                        featuredItemsStringBuilder += `${featuredItemTitle} - ${featuredItemDescription}, `
+                    }
+                    userProfileInformation += `${currSection}: ${featuredItemsStringBuilder} | `
+                } console.log(userProfileInformation)
+            }
         }
     }
-    console.log(allUserSections)
 
 }
 
