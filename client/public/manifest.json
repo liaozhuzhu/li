@@ -3,14 +3,12 @@
   "name": "Fliee",
   "version": "1.0.0",
   "description": "Good luck with your job search!",
-  "action": {
-    "default_popup": "index.html"
-  },
   "permissions": [],
   "content_scripts": [
     {
       "matches": ["https://www.linkedin.com/*"],
       "js": ["scripts/content.js"] 
     }
-  ]
+  ],
+  "host_permissions": ["*://*/*"]
 }
