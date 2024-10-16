@@ -23,9 +23,18 @@ const enhanceUserProfile = () => {
                     const allFeaturedItems = section.querySelectorAll('.pvs-media-content__preview');
                     for (let featuredItem of allFeaturedItems) {
                         let featuredItemTitle = featuredItem.querySelector('div.mb1 > div > div > div > div > span[aria-hidden="true"]').textContent.trim();
-                        console.log(featuredItemTitle)
-                        let featuredItemDescription = featuredItem.querySelector('div.eMKzYTnovCkOQaNEgZiBMAzoRyZWLkSNRU.text-body-small.break-words.display-flex.align-items-center').querySelector('div.QPriypoPxOFvmnjsoqRxkXeeNBXMwoasTM span[aria-hidden="true"]').textContent.trim()
-                        featuredItemsStringBuilder += `${featuredItemTitle} - ${featuredItemDescription}, `
+                        let divCount = (featuredItem.querySelectorAll('div')).length
+                        let featuredItemDescription = ""
+                        try {
+                            if (divCount == 9) { // no url for featured item
+                                featuredItemDescription = featuredItem.querySelectorAll('div')[5].querySelector('div > div > div span[aria-hidden="true"]').textContent.trim()
+                            } else {
+                                featuredItemDescription = featuredItem.querySelectorAll('div')[7].querySelector('div > div > div span[aria-hidden="true"]').textContent.trim()
+                            }
+                        } catch (e) {
+                            console.log("No description for this featured item")
+                        }
+                        featuredItemsStringBuilder += `Featured item is ${featuredItemTitle} ${featuredItemDescription ? `with description "${featuredItemDescription}"` : ''}, `
                     }
                     userProfileInformation += `${currSectionTitle}: ${featuredItemsStringBuilder} | `
                 } else if (currSectionTitle == "Experience") {
@@ -33,19 +42,22 @@ const enhanceUserProfile = () => {
                     const allExperienceItems = section.querySelectorAll('div.display-flex.flex-column.align-self-center.full-width')
                     for (let experienceItem of allExperienceItems) {
                         const titleAndCompany = experienceItem.querySelectorAll('.visually-hidden')
-                        const companyText = experienceItem.getElementsByClassName('pvs-list__item--with-top-padding AAemVmszRHbUwYWGyhHfzqPtOAlpOHIQdbsM');
+                        let companyText = null;
+                        if (experienceItem.children[1]) {
+                            companyText = experienceItem.children[1];
+                        }
                         let experienceTitle = titleAndCompany[0].textContent.trim()
                         let experienceCompany = titleAndCompany[1].textContent.split("·")[0].trim()
-                        let experienceDescription = companyText[0] ? companyText[0].querySelector('span[aria-hidden="true"]').textContent.trim() : ''; // user may not have a description for thier experience
+                        let experienceDescription = companyText ? companyText.querySelector('ul').querySelectorAll('li')[0].querySelector('span').textContent.trim() : ''; // user may not have a description for thier experience
                         experienceItemsStringBuilder += `${experienceTitle} at ${experienceCompany} ${experienceDescription ? `with description "${experienceDescription}"`: ''}, `
                     }
                     userProfileInformation += `${currSectionTitle}: ${experienceItemsStringBuilder} | `
                 } else if (currSectionTitle == "Education") {
                     let educationItemsStringBuilder = "";
                     const allEducationItems = section.getElementsByClassName('display-flex flex-column align-self-center full-width');
-                    for (let educationTime of allEducationItems) {
-                        console.log(educationTime);
-                    }
+                    // for (let educationTime of allEducationItems) {
+                    //     console.log(educationTime);
+                    // }
                 }
             }
         }
@@ -95,7 +107,7 @@ const initUserProfileFeatures = () => {
                 }
 
                 newSpan.className = 'artdeco-button__text';
-                newSpan.textContent = 'Enhance With Fliee';
+                newSpan.textContent = 'Tips From Fliee';
 
                 buttonContainer.appendChild(newButton);
                 newButton.appendChild(newSpan);
