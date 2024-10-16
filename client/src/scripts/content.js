@@ -55,10 +55,15 @@ const enhanceUserProfile = () => {
                 } else if (currSectionTitle == "Education") {
                     let educationItemsStringBuilder = "";
                     const allEducationItems = section.getElementsByClassName('display-flex flex-column align-self-center full-width');
-                    // for (let educationTime of allEducationItems) {
-                    //     console.log(educationTime);
-                    // }
-                }
+                    for (let educationItem of allEducationItems) {
+                        let schoolAndMajor = educationItem.children[0].querySelector('a')
+                        let school = schoolAndMajor.querySelector('div').querySelector('span').textContent.trim()
+                        let major = schoolAndMajor.querySelector('span > span').textContent.trim()
+                        let description = educationItem.children[1] ? educationItem.children[1].querySelector('span').textContent.trim() : ''; // user may not have a description for thier education
+                        educationItemsStringBuilder += `${major} at ${school} ${description ? `with description "${description}"`: ''}, `
+                    }
+                    userProfileInformation += `${currSectionTitle}: ${educationItemsStringBuilder} | `
+                } 
             }
         }
     }
