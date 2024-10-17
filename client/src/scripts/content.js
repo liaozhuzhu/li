@@ -80,7 +80,13 @@ const enhanceUserProfile = () => {
         }
     }
     userProfileInformation = userProfileInformation.slice(0, -5);
-    console.log(userProfileInformation) // eventually pass this to the frontend
+    chrome.runtime.sendMessage({ 
+        type: "USER_PROFILE_DATA", 
+        data: userProfileInformation 
+    }, (response) => {
+        console.log('Message sent:', userProfileInformation);
+        console.log('Response from extension:', response);
+    });
 }
 
 function updateButtonClass() {

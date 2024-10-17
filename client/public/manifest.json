@@ -3,13 +3,16 @@
   "name": "Fliee",
   "version": "1.0.0",
   "description": "Can't get better than free",
-  "permissions": [],
+  "permissions": ["activeTab", "scripting"],
   "content_scripts": [
     {
       "matches": ["https://www.linkedin.com/*"],
       "js": ["scripts/content.js"] 
     }
   ],
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
   "host_permissions": ["*://*/*"],
   "icons": {
     "128": "fliee.png"
@@ -17,6 +20,7 @@
   "action": {
     "default_icon": {
       "128": "fliee.png"
-    }
+    },
+    "default_popup": "index.html"
   }
 }

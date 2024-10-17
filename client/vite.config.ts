@@ -15,6 +15,10 @@ export default defineConfig({
           src: 'src/scripts/content.js', // Source path in src
           dest: 'scripts', // Copy to 'scripts' folder in the build output
         },
+        {
+          src: 'src/scripts/background.js',
+          dest: 'scripts',
+        }
       ],
     }),
   ],

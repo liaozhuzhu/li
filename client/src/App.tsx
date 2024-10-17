@@ -1,22 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 
+declare const chrome: any;
+
 function App() {
-  
-  const [data, setData] = useState<any>(null)
   const [inputData, setInputData] = useState<string>('')
   const [outputData, setOutputData] = useState<string>('')
-
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8080/api/data')
-      .then(res => {
-        setData(res.data.message)
-        // console.log(res.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }, [])
+  // const [userProfileData, setUserProfileData] = useState<any>("")
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,10 +21,32 @@ function App() {
         });
   };
 
+  const test = async () => {
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    const tab = tabs[0];
+
+    if (tab) {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: () => {
+          console.log("Hello from the content script!");
+        }
+      }, (result: any) => {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError);
+        } else {
+          console.log("Script executed successfully:", result);
+        }
+      });
+    } else {
+      console.error("No active tab found");
+    }
+  }
+
   return (
-    <div className="w-[150px] h-screen flex flex-col justify-center items-center">
-      <h1>Flask + React</h1>
-      <p>{data}</p>
+    <div className="w-[300px] h-screen flex flex-col justify-center items-center">
+      <h1>Fliee</h1>
+      <button onClick={test}>Test</button>
       <form onSubmit={handleSubmit}>
           <input 
               type="text" 
@@ -45,7 +57,7 @@ function App() {
           <button type="submit">Send to Flask</button>
       </form>
 
-      <p>You said: {outputData}</p>
+      <p>{outputData}</p>
     </div>
   )
 }
