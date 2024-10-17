@@ -29,7 +29,8 @@ function App() {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: () => {
-          console.log("Hello from the content script!");
+          // change the background color of the page
+          document.body.style.backgroundColor = 'red';
         }
       }, (result: any) => {
         if (chrome.runtime.lastError) {
