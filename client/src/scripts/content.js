@@ -7,7 +7,7 @@ const enhanceUserProfile = () => {
     userProfileInformation += `Headline: ${headlineText} | `;
     // get all sections
     const sections = document.querySelectorAll('section[class^="artdeco-card pv-profile-card break-words"]');
-    const importantSections = new Set(['About', 'Experience', 'Education', 'Skills', 'Featured', 'Licenses & certifications']);
+    const importantSections = new Set(['About', 'Experience', 'Education', 'Featured', 'Organizations']);
 
     for (let section of sections) {
         const sectionTitle = section.querySelector('.pvs-header__title.text-heading-large');
@@ -18,7 +18,11 @@ const enhanceUserProfile = () => {
             // check if this is an important section
             if (importantSections.has(currSectionTitle)) {
                 // here's tricky because each section has unique structures
-                if (currSectionTitle == "Featured") {
+                if (currSectionTitle == "About") {
+                    let aboutText = section.querySelector('.display-flex.ph5.pv3').querySelector('span').textContent.trim();
+                    userProfileInformation += `${currSectionTitle} Me: ${aboutText} | `
+                }
+                else if (currSectionTitle == "Featured") {
                     let featuredItemsStringBuilder = ""
                     const allFeaturedItems = section.querySelectorAll('.pvs-media-content__preview');
                     for (let featuredItem of allFeaturedItems) {
@@ -63,11 +67,20 @@ const enhanceUserProfile = () => {
                         educationItemsStringBuilder += `${major} at ${school} ${description ? `with description "${description}"`: ''}, `
                     }
                     userProfileInformation += `${currSectionTitle}: ${educationItemsStringBuilder} | `
+                } else if (currSectionTitle == "Organizations") {
+                    let organizationsStringBuilder = "";
+                    const allOrganizations = section.querySelector('ul').children
+                    for (let organizationItem of allOrganizations) {
+                        let organization = (organizationItem.querySelector('span').textContent.trim());
+                        organizationsStringBuilder += `${organization}, `
+                    }
+                    userProfileInformation += `${currSectionTitle}: ${organizationsStringBuilder} | `
                 } 
             }
         }
     }
-    console.log(userProfileInformation)
+    userProfileInformation = userProfileInformation.slice(0, -5);
+    console.log(userProfileInformation) // eventually pass this to the frontend
 }
 
 function updateButtonClass() {
