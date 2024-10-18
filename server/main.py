@@ -39,8 +39,10 @@ def post_data():
 @app.route('/api/model', methods=['POST'])
 def prompt_model():
     data = request.json
-    prompt = data['prompt']
-    response = get_response_from_model(prompt)[1:] # strip off leading space
+    user_prompt = data['user_prompt']
+    system_prompt = data['system_prompt']
+
+    response = get_response_from_model(prompt = user_prompt, system_prompt=system_prompt)[1:] # strip off leading space
     return jsonify({"response": response}), 201
 
 

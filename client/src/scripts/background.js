@@ -1,7 +1,8 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'USER_PROFILE_DATA') {
         const data = {
-            prompt: message.data, 
+            user_prompt: message.user_prompt, 
+            system_prompt: message.system_prompt
         };
 
         fetch('http://127.0.0.1:8080/api/model', {
