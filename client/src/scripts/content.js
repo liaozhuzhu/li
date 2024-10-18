@@ -88,9 +88,7 @@ const enhanceUserProfile = () => {
         with each tip being at maximum 1 sentence long. You must avoid vague tips like 'consider joining x group' and instead focus 
         more on where user's could potentially improve their current content on their profile, an example would be 'instead of saying this, say this'. 
         You must return your response in html code as an ordered list without a header element, only return the html code for the ordered 
-        list elements. The list should be absolutely positioned in the center of the user's screen with 400px width and 
-        height auto, add a padding of 12px around all edges with padding-left of 30px and a white background with border radius 25px and a black border
-        with width 2px, and have a disclaimer at the bottom in small text that says 'Click anywhere to close'. Be sure the modal has z-index of 100 and a box shadow of 0 0 10px rgba(0, 0, 0, 0.5).`,
+        list elements.`
     }, (response) => {
         console.log('Response from extension:', response);
         // create a modal to display the response (which is html code) and render it
@@ -107,7 +105,8 @@ const enhanceUserProfile = () => {
         // modal.style.border = '1px solid black';
         // modal.style.borderRadius = '10px';
         // modal.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
-        // close the modal when the user clicks outside of it
+
+        
         document.addEventListener('click', () => {
             modal.remove();
         });
