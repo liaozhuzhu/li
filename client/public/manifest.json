@@ -7,7 +7,8 @@
   "content_scripts": [
     {
       "matches": ["https://www.linkedin.com/*"],
-      "js": ["scripts/content.js"] 
+      "js": ["scripts/content.js"],
+      "css": ["output.css"]
     }
   ],
   "background": {
@@ -22,5 +23,11 @@
       "128": "fliee.png"
     },
     "default_popup": "index.html"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["output.css"],
+      "matches": ["https://www.linkedin.com/*"]
+    }
+  ]
 }

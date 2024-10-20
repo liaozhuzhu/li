@@ -95,18 +95,10 @@ const enhanceUserProfile = () => {
         const modal = document.createElement('div');
         modal.id = 'fliee-modal';
         modal.innerHTML = response.response;
+        modal.classList.add('z-50', 'w-60', 'h-60', 'bg-white', 'p-4', 'rounded-lg', 'shadow-lg', 'fixed', 'top-1/2', 'left-1/2', 'transform', '-translate-x-1/2', '-translate-y-1/2');
         document.body.appendChild(modal);
-        // modal.style.position = 'absolute';
-        // modal.style.top = '50%';
-        // modal.style.zIndex = '100';
-        // modal.style.left = '25%';
-        // modal.style.backgroundColor = 'white';
-        // modal.style.padding = '20px';
-        // modal.style.border = '1px solid black';
-        // modal.style.borderRadius = '10px';
-        // modal.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
 
-        
+
         document.addEventListener('click', () => {
             modal.remove();
         });
